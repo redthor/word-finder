@@ -1,0 +1,16 @@
+parameters:
+    bin_dir: vendor/bin
+    ascii:
+        succeeded: ~
+        failed: ~
+    tasks:
+        atoum:
+            directories:
+                - tests
+        phpcsfixer2:
+            config: .php_cs.dist
+        phpmd:
+            ruleset: ['phpmd.xml']
+            exclude: ['tests', 'src/Dict/BritishEnglish.php']
+        phpstan:
+            ignore_patterns: ['tests']
