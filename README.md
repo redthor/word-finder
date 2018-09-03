@@ -137,8 +137,28 @@ https://github.com/MarkBaker/Tries
   the chain and providers won't need to know. The word 'provider' might have
   been better than 'delegate'.
 
-- Having the dictionaries defined in PHP is a bit messy but works fine for this
-  number of words. It has the draw back that an update to the dictionary would
-  require an update to the code. It also makes the code analysis tools slower.
-  A better solution would be to draw up the dictionary from a separate location
-  and cache it.
+- Having the dictionaries defined in PHP is a bit messy but works fine for the
+  number of words in the dictionary in use. It has the draw back that an update
+  to the dictionary would require an update to the code. It also makes the code
+  analysis tools run slower. A better solution would be to draw up the dictionary
+  from a separate location and cache it.
+
+- There was some work in the `with-cache` branch to include a cache such as APCu
+  but that has been removed as out of scope.
+
+- Having the dictionary in code means there is some time in each request loading
+  the classes. This is somewhat mitigated by the opcache, if appropriately
+  tuned, however the `Dictionary::init()` may not (?) be part of the opcache.
+  Using APCu may be a solution. Another possible solution which would be fun to
+  try is [PHP-PM](https://github.com/php-pm/php-pm) as the classes will definitely
+  only be `init()`d once.
+
+- There are a number of options for optimising the full scan of the dictionary
+  if necessary:
+    - place bookmarks (index location) of where the dictionary starts at 'b',
+      'c', and so on through to 'z'. When full scanning eliminate scanning words
+      that begin with a letter that is not passed in the set of characters
+      supplied by the user; also
+    - create a facility to rule out words in the dictionary based on length. Any
+      word that is longer than the string passed in by the user can be ruled
+      out.
