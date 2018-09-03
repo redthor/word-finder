@@ -47,6 +47,36 @@ Additionally there are 3 dictionary types to optimise the solution:
 The fixed array dictionary is best for the recursion strategy while the Trie-based
 dictionary is used in concert with the permutation builder to avoid a full scan.
 
+## Docker
+
+The docker build is based on Alpine, so should be fairly light when getting the image
+layers.
+
+### Develoment Build
+The assignment requires providing the tests `./vendor/bin/atoum` and we are using
+the php server so the build defined by the Dockerfile is a 'development' build. In
+reality we would use `composer install --no-dev` and `APP_ENV=prod` for an optimal
+build.
+
+### Building and Running
+To build the container use:
+
+```
+cd word-finder
+docker build -t submission .
+```
+
+To run the container use:
+```
+docker run --rm -it -p 8080:80 submission
+```
+
+Rather than building it, you can also pull it:
+```
+docker pull redthor/word-finder
+docker run --rm -it -p 8080:80 redthor/word-finder
+```
+
 
 ## Endpoints
 
