@@ -4,7 +4,6 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: 'en'
 
 services:
     # default configuration for services in *this* file
@@ -29,3 +28,29 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    app.wordfinder:
+        class: App\Service\WordFinder
+        calls:
+            - method: addDelegate
+              arguments:
+                  - '@App\Service\DiscoverByPermutations'
+            - method: addDelegate
+              arguments:
+                  - '@App\Service\DiscoverByLetterElimination'
+
+    App\Service\WordFinderInterface: '@app.wordfinder'
+
+    app.dictionary:
+        class: App\Dict\BritishEnglish
+
+    app.dictionary.trie:
+        class: App\Dict\BritishEnglishTrie
+
+    App\Service\DiscoverByLetterElimination:
+        arguments:
+            $dict: '@app.dictionary'
+
+    App\Service\DiscoverByPermutations:
+        arguments:
+            $dict: '@app.dictionary.trie'

@@ -15,9 +15,7 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\Constraints as WfAssert;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use App\Service\WordFinderInterface;
 
 /**
  * WordFinderController class.
@@ -32,14 +30,15 @@ class WordFinderController
      *
      * @return Response
      */
-    public function wordFinder(string $letters, ValidatorInterface $validator): Response
+    public function wordFinder(string $letters, WordFinderInterface $wordFinder): Response
     {
-        $notBlank = new Assert\NotBlank();
-        $minLength = new Assert\Length(['min' => 1]);
-        $alphaOnly = new WfAssert\ContainsAlphabeticText();
+        $words = $wordFinder->find($letters);
 
-        $validator->validate($letters, [$notBlank, $minLength, $alphaOnly]);
-
-        return new Response($letters);
+        return new Response(
+            \sprintf(
+                '["%s"]',
+                \implode('", "', $words)
+            )
+        );
     }
 }

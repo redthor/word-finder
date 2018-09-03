@@ -11,6 +11,6 @@ parameters:
             config: .php_cs.dist
         phpmd:
             ruleset: ['phpmd.xml']
-            exclude: ['tests', 'src/Dict/BritishEnglish.php']
+            exclude: ['tests', 'src/Dict/BritishEnglish*.php', 'src/Dict/BritishEnglishTrie.php', 'src/Dict/BritishEnglishRadixTrie.php', 'src/Dict/AbstractBritishEnglishTrie.php']
         phpstan:
             ignore_patterns: ['tests']

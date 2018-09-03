@@ -27,17 +27,16 @@ class BritishEnglishTest extends Test
 
             ->object($this->testedInstance)
                 ->isInstanceOf(BritishEnglish::class)
-                ->isInstanceOf(\Iterator::class)
                 ->isInstanceOf(\Countable::class)
                 ->isInstanceOf(\ArrayAccess::class)
 
             ->integer($this->testedInstance->count())
-                ->isEqualTo(72911)
+                ->isEqualTo(62972)
 
-            ->string($this->testedInstance[43887])
+            ->string($this->testedInstance[33959])
                 ->isEqualTo('message')
 
-            ->string($this->testedInstance[43583])
+            ->string($this->testedInstance[33655])
                 ->isEqualTo('media')
 
             ->exception(function () {
@@ -45,6 +44,7 @@ class BritishEnglishTest extends Test
             })
                 ->isInstanceOf(\RuntimeException::class)
 
-        ;
+            ->boolean($this->testedInstance->exists('utensil'))
+                ->isTrue();
     }
 }

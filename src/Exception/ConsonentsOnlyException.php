@@ -11,8 +11,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-return [
-    Symfony\Bundle\FrameworkBundle\FrameworkBundle::class => ['all' => true],
-    Symfony\Bundle\WebServerBundle\WebServerBundle::class => ['dev' => true],
-    Symfony\Bundle\MonologBundle\MonologBundle::class => ['all' => true],
-];
+namespace App\Exception;
+
+/**
+ * ConsonentsOnlyException class.
+ */
+class ConsonentsOnlyException extends \InvalidArgumentException
+{
+}
