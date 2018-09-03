@@ -47,9 +47,6 @@ Additionally there are 3 dictionary types to optimise the solution:
 The fixed array dictionary is best for the recursion strategy while the Trie-based
 dictionary is used in concert with the permutation builder to avoid a full scan.
 
-### Delegate Pattern
-
-The WordFinder service has a set of delegates 
 
 ## Endpoints
 
@@ -95,7 +92,7 @@ because the permutation strategy won't accept it.
 
 ## Running The Tests
 
-The project uses [atoun](http://atoum.org/) as it's testing framework. To run
+The project uses [atoum](http://atoum.org/) as it's testing framework. To run
 the tests:
 
 ```
