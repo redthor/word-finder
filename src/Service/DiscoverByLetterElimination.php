@@ -17,7 +17,6 @@ use Psr\Log\LoggerInterface;
 use App\Dict\DictionaryInterface;
 use App\Validator\AllowedLetters;
 use App\Exception\ConsonentsOnlyException;
-use Tries\TrieEntry;
 
 /**
  * DiscoverByLetterElimination service.
@@ -89,11 +88,11 @@ class DiscoverByLetterElimination implements WordFinderDelegateInterface
 
         $matches = [];
 
-        $words = $this->dict->getIterator();
-
-        foreach ($words as $word) {
-            if ($word instanceof TrieEntry) {
-                $word = $word->value;
+        foreach ($this->dict as $word) {
+            // Avoid dictionary words that are longer than the chars passed in -
+            // they won't ever work
+            if (\strlen($word) > \strlen($letters)) {
+                continue;
             }
 
             $dictWordSplit = \str_split($word);
