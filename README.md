@@ -127,10 +127,10 @@ the entrypoint after the image. So for example:
 
 ```
 # Run app:find-words
-docker run --rm -it  --entrypoint "/wf/bin/console" redthor/word-finder app:find-words dleo
+docker run --rm -it --entrypoint "/wf/bin/console" redthor/word-finder app:find-words dleo
 
 # Run app:run-all-word-finders
-docker run --rm -it  --entrypoint "/wf/bin/console" redthor/word-finder app:run-all-word-finders ikijst
+docker run --rm -it --entrypoint "/wf/bin/console" redthor/word-finder app:run-all-word-finders ikijst
 ```
 
 
@@ -141,7 +141,13 @@ the tests:
 
 ```
 ./vendor/bin/atoum -d tests
+
+# Or for docker:
+docker run --rm -it --entrypoint "/wf/vendor/bin/atoum" redthor/word-finder -d /wf/tests
 ```
+
+If you want code-coverage you'll need to run the tests in your own environment with xdebug
+or modify the docker container.
 
 ## Notes
 
