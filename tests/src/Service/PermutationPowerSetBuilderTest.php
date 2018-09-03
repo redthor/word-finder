@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Test;
-use Psr\SimpleCache\CacheInterface;
 
 /**
  * Test class.
@@ -56,37 +55,6 @@ class PermutationPowerSetBuilderTest extends Test
                 ->hasMessage('PermutationPowerSet Builder word size limit [8] reached. [9] passed, reduce by [1]')
             // Eight chars is ok - note, still slow ~ 1sec
             ->array($this->testedInstance->permutations('abcdefgh'))
-        ;
-    }
-
-    public function testBuilderUsesCacheIfAvailable()
-    {
-        $cache = $this->newMockInstance(CacheInterface::class);
-        $cachedResult = [];
-        $letters = 'aab';
-        $expectedResult = ['a', 'b', 'aa', 'ba', 'ab', 'aab', 'aba', 'baa'];
-
-        $cache->getMockController()->set = function (string $cacheKey, array $permutations) use (&$cachedResult, $expectedResult) {
-            $cachedResult = $permutations;
-        };
-
-        $cache->getMockController()->get = function (string $cacheKey) use ($cachedResult) {
-            return $cachedResult;
-        };
-
-        $this->given($this->newTestedInstance(8, $cache))
-            ->then
-            ->array($this->testedInstance->permutations('aab'))
-                ->hasSize(\count($cachedResult))
-                ->strictlyContainsValues($cachedResult)
-            ->array($cachedResult)
-                ->hasSize(\count($expectedResult))
-                ->strictlyContainsValues($expectedResult)
-            ->mock($cache)
-                ->call('set')
-                    ->once()
-                ->call('get')
-                    ->once()
         ;
     }
 }

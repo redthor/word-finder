@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f107b1f4baf6a1deebb319a8a3c91468",
+    "content-hash": "a4a52804a5b43e32a53c9137a104a5c9",
     "packages": [
         {
             "name": "markbaker/tries",

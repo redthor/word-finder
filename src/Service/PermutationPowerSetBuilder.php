@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use Psr\SimpleCache\CacheInterface;
-
 /**
  * PermutationPowerSetBuilder service.
  */
@@ -22,19 +20,14 @@ class PermutationPowerSetBuilder
 {
     private $limit;
 
-    private $cache;
-
     /**
      * __construct.
      *
      * @param int            $limit
-     * @param CacheInterface $cache
      */
-    public function __construct(int $limit = 8, CacheInterface $cache = null)
+    public function __construct(int $limit = 8)
     {
         $this->limit = $limit;
-
-        $this->cache = $cache;
     }
 
     /**
@@ -92,11 +85,6 @@ class PermutationPowerSetBuilder
             );
         }
 
-        // Check the cache
-        if ($cachedResult = $this->checkCache($letters)) {
-            return $cachedResult;
-        }
-
         $permutations = $this->powerPerms(\str_split($letters));
 
         $results = [];
@@ -108,40 +96,7 @@ class PermutationPowerSetBuilder
 
         $results = \array_keys($results);
 
-        $this->insertIntoCache($letters, $results);
-
         return $results;
-    }
-
-    /**
-     * @param string $letters
-     *
-     * @return array|null
-     */
-    private function checkCache(string $letters): ?array
-    {
-        if (null === $this->cache) {
-            return null;
-        }
-
-        $key = (new PermutationCacheKeyFactory())->create($letters);
-
-        return $this->cache->get($key);
-    }
-
-    /**
-     * @param string $letters
-     * @param array  $value
-     */
-    private function insertIntoCache(string $letters, array $value): void
-    {
-        if (null === $this->cache) {
-            return;
-        }
-
-        $key = (new PermutationCacheKeyFactory())->create($letters);
-
-        $this->cache->set($key, $value);
     }
 
     /**
