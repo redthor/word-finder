@@ -119,6 +119,20 @@ This command will run through all the word finder strategies:
 Note if you pass more than 6 chars it will not be able to run all the tests
 because the permutation strategy won't accept it.
 
+### Using The Console Commands with Docker
+
+If you are using the docker container and you would like to try the console commands,
+you need to override the entrypoint and then supply the arguments to be passed to
+the entrypoint after the image. So for example:
+
+```
+# Run app:find-words
+docker run --rm -it  --entrypoint "/wf/bin/console" redthor/word-finder app:find-words dleo
+
+# Run app:run-all-word-finders
+docker run --rm -it  --entrypoint "/wf/bin/console" redthor/word-finder app:run-all-word-finders ikijst
+```
+
 
 ## Running The Tests
 
